@@ -90,11 +90,9 @@ func (r *Runner) Enumerate(ctx context.Context, domain string) ([]string, error)
 		}(s)
 	}
 
-	// 3. SecurityTrails (if key exists)
+	// 3. SecurityTrails — only when a key is configured via the environment.
+	// Never bake a key into the source tree; see env.example / docker-compose.yml.
 	apiKey := os.Getenv("SECURITYTRAILS_API_KEY")
-	if apiKey == "" {
-		apiKey = "AE4qcaLV9GUPqxWHa-WDKfFu7C0PIYD1"
-	}
 	if apiKey != "" {
 		wg.Add(1)
 		go func() {
